@@ -65,33 +65,49 @@ Ask the user these questions one by one (wait for answer before next):
    (Check all that apply: IG / FB / LinkedIn / XHS / TikTok / Twitter)
    → config: platforms (array)
 
-8. Google Sheets Content Calendar
-   - Spreadsheet ID (from the URL: docs.google.com/spreadsheets/d/[THIS_PART]/edit)
-   - Sheet tab name (e.g. "Content Plan", "01 Content Idea")
-   - Which column has the content title/topic?
-   - Which column has the approval status?
-   - Which column has the content type (carousel/infographic)?
-   → config: calendar { spreadsheet_id, sheet_name, title_col, status_col, type_col }
+8. What is your social media handle?
+   (e.g. @yourbrand — shown on every slide)
+   → config: handle
 
-9. Google Drive parent folder ID
-   (The folder where all your content subfolders will be created)
-   (From the URL: drive.google.com/drive/folders/[THIS_PART])
-   → config: drive_parent_folder_id
+9. Brand primary color (hex code, e.g. #4AB897)
+   (Used for headlines, bullet markers, accents)
+   → config: brand_color_primary
 
-10. Local output directory for generated files
-    (Where to save HTML cards and screenshots)
-    (e.g. ~/Downloads/my-content/output/)
+10. Brand secondary color (hex code, e.g. #6DE3EA)
+    (Used for pill labels, subtitles)
+    → config: brand_color_secondary
+
+11. Preferred font (e.g. "Inter", "Montserrat", "Playfair Display")
+    (Must be available on Google Fonts. Leave blank for default: Inter)
+    → config: font_primary
+
+12. Card theme — if using built-in templates:
+    (A) blue-dark  (B) orange-light  (C) I'll provide my own template path
+    → config: card_theme ("blue-dark" / "orange-light" / "custom")
+    If C → provide path → config: card_template_path
+
+13. Google Sheets Content Calendar
+    - Spreadsheet ID (from the URL: docs.google.com/spreadsheets/d/[THIS_PART]/edit)
+    - Sheet tab name (e.g. "Content Plan", "01 Content Idea")
+    - Which column has the content title/topic?
+    - Which column has the approval status?
+    - Which column has the content type (carousel/infographic)?
+    → config: calendar { spreadsheet_id, sheet_name, title_col, status_col, type_col }
+
+14. Google Drive parent folder ID
+    (The folder where all your content subfolders will be created)
+    (From the URL: drive.google.com/drive/folders/[THIS_PART])
+    → config: drive_parent_folder_id
+
+15. Local output directory for generated files
+    (Where to save HTML cards and screenshots, e.g. ~/Downloads/my-content/output/)
     → config: local_output_dir
 
-11. rclone remote name
+16. rclone remote name
     (Run `rclone listremotes` to see yours, e.g. "gdrive:", "mycloud:")
     → config: rclone_remote
 
-12. HTML card template path
-    (Leave blank to use the built-in templates in this repo, or provide your own path)
-    → config: card_template_path (optional)
-
-13. Notification preference for new ideas
+17. Notification preference for new ideas
     Options: (A) WhatsApp  (B) Email  (C) Skip / I'll check manually
     → config: notification_method
     If A → WhatsApp number (with country code)
@@ -110,6 +126,12 @@ Ask the user these questions one by one (wait for answer before next):
   "brand_voice": "...",
   "languages": ["..."],
   "platforms": ["IG", "FB"],
+  "handle": "@yourbrand",
+  "brand_color_primary": "#4AB897",
+  "brand_color_secondary": "#6DE3EA",
+  "font_primary": "Inter",
+  "card_theme": "blue-dark",
+  "card_template_path": "",
   "calendar": {
     "spreadsheet_id": "...",
     "sheet_name": "...",
@@ -120,7 +142,6 @@ Ask the user these questions one by one (wait for answer before next):
   "drive_parent_folder_id": "...",
   "local_output_dir": "~/Downloads/my-content/output/",
   "rclone_remote": "gdrive:",
-  "card_template_path": "",
   "notification_method": "whatsapp",
   "notification_target": "+60XXXXXXXXX"
 }
@@ -233,9 +254,9 @@ Using config `drive_parent_folder_id`:
 
 **Determine card template:**
 - If config `card_template_path` is set → use that path
-- Otherwise → use the built-in templates from this repo: `templates/blue-dark/` or `templates/orange-light/`
-  - Ask user: "Which theme do you prefer? (A) blue-dark  (B) orange-light"
-  - Path = `[skill install dir]/templates/[chosen-theme]/`
+- If config `card_theme` is set → use `templates/[card_theme]/` from this repo
+- After loading the template, replace CSS color values with config `brand_color_primary` and `brand_color_secondary`, and replace the font with config `font_primary`
+- Replace `@yourbrand` placeholder with config `handle`
 
 **For each language version:**
 
