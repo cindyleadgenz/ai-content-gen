@@ -36,18 +36,59 @@ If missing → run onboarding (ask one by one):
 8.  Social media handle (e.g. @yourbrand) → config: handle
 9.  Brand primary color (hex, e.g. #ff90d1) → config: brand_color_primary
 10. Brand secondary color (hex, e.g. #b3a0ff) → config: brand_color_secondary
-11. Photo library path (folder with your photos, e.g. ~/Photos/brand/) → config: photo_library_path
-12. Google Sheets Calendar
+11. Preferred font (Google Fonts name, e.g. "Inter", "Playfair Display", "Montserrat")
+    → config: font_primary
+
+12. Card overlay style — how should your photo show through?
+    (A) Cinematic Dark — heavy dark overlay, text at bottom, moody & dramatic
+    (B) Side Panel — left half is a dark text panel, right half shows your photo
+    (C) Minimal — light overlay, photo-forward, text centered with soft blur behind
+    → config: overlay_style ("cinematic-dark" / "side-panel" / "minimal")
+
+13. Photo library path (folder with your photos, e.g. ~/Photos/brand/) → config: photo_library_path
+14. Google Sheets Calendar
     - Spreadsheet ID → config: calendar.spreadsheet_id
     - Sheet name → config: calendar.sheet_name
     - Title column, Status column, Type column → config: calendar.*_col
-13. Google Drive parent folder ID → config: drive_parent_folder_id
-14. Local output directory → config: local_output_dir
-15. rclone remote name → config: rclone_remote
-16. Notification preference (WhatsApp / Email / Skip) → config: notification_method + notification_target
+15. Google Drive parent folder ID → config: drive_parent_folder_id
+16. Local output directory → config: local_output_dir
+17. rclone remote name → config: rclone_remote
+18. Notification preference (WhatsApp / Email / Skip) → config: notification_method + notification_target
 ```
 
-Save to `~/.claude/skills/ai-content-gen-v2/config.json` and proceed.
+Save to `~/.claude/skills/ai-content-gen-v2/config.json`:
+
+```json
+{
+  "brand_name": "...",
+  "brand_bio": "...",
+  "target_audience": "...",
+  "content_pillars": ["...", "..."],
+  "brand_voice": "...",
+  "languages": ["..."],
+  "platforms": ["IG", "FB"],
+  "handle": "@yourbrand",
+  "brand_color_primary": "#ff90d1",
+  "brand_color_secondary": "#b3a0ff",
+  "font_primary": "Inter",
+  "overlay_style": "cinematic-dark",
+  "photo_library_path": "~/Photos/brand/",
+  "calendar": {
+    "spreadsheet_id": "...",
+    "sheet_name": "...",
+    "title_col": "E",
+    "status_col": "B",
+    "type_col": "F"
+  },
+  "drive_parent_folder_id": "...",
+  "local_output_dir": "~/Downloads/my-content/output/",
+  "rclone_remote": "gdrive:",
+  "notification_method": "whatsapp",
+  "notification_target": "+60XXXXXXXXX"
+}
+```
+
+And proceed.
 
 ---
 
@@ -105,21 +146,42 @@ HTML structure per slide:
 </div>
 ```
 
-CSS (use config brand colors):
+CSS — apply based on config `overlay_style`:
+
+**A) cinematic-dark** — heavy overlay, text anchored to bottom:
 ```css
-.card { width: 1080px; height: 1350px; position: relative; overflow: hidden; }
-.photo { position: absolute; inset: 0; background-size: cover; background-position: center; }
-.overlay { position: absolute; inset: 0;
-  background: linear-gradient(rgba(26,26,26,0.85), rgba(45,45,45,0.92)); }
-.content { position: absolute; inset: 0; padding: 80px 90px;
-  display: flex; flex-direction: column; justify-content: flex-end; }
-.pill { background: rgba([brand_color_secondary RGB], 0.15);
-  border: 1px solid rgba([brand_color_secondary RGB], 0.4);
-  color: [config.brand_color_secondary]; border-radius: 6px; padding: 8px 20px; display: inline-block; margin-bottom: 32px; }
-.title { font-size: 88px; font-weight: 900; color: #fff; line-height: 1.3; margin-bottom: 32px; }
-.title .accent { color: [config.brand_color_primary]; }
-.bullets li::before { content: "→"; color: [config.brand_color_primary]; margin-right: 16px; }
-.handle { color: rgba(255,255,255,0.35); }
+.card { width:1080px; height:1350px; position:relative; overflow:hidden; font-family:'[font_primary]',sans-serif; }
+.photo { position:absolute; inset:0; background-size:cover; background-position:center; }
+.overlay { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 60%, rgba(0,0,0,0.95) 100%); }
+.content { position:absolute; inset:0; padding:80px 90px; display:flex; flex-direction:column; justify-content:flex-end; }
+```
+
+**B) side-panel** — left dark panel, right photo visible:
+```css
+.card { width:1080px; height:1350px; position:relative; overflow:hidden; font-family:'[font_primary]',sans-serif; }
+.photo { position:absolute; inset:0; background-size:cover; background-position:right center; }
+.overlay { position:absolute; inset:0; background:linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.1) 100%); }
+.content { position:absolute; inset:0; padding:80px 90px; display:flex; flex-direction:column; justify-content:center; max-width:620px; }
+```
+
+**C) minimal** — light overlay, text centered, soft backdrop:
+```css
+.card { width:1080px; height:1350px; position:relative; overflow:hidden; font-family:'[font_primary]',sans-serif; }
+.photo { position:absolute; inset:0; background-size:cover; background-position:center; filter:brightness(0.6); }
+.overlay { position:absolute; inset:0; background:rgba(0,0,0,0.35); }
+.content { position:absolute; inset:0; padding:80px 90px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+.text-bg { background:rgba(0,0,0,0.45); backdrop-filter:blur(6px); border-radius:16px; padding:48px; }
+```
+
+Common styles across all three (add to the style block):
+```css
+.pill { background:color-mix(in srgb,[brand_color_secondary] 15%,transparent); border:1px solid color-mix(in srgb,[brand_color_secondary] 40%,transparent); color:[brand_color_secondary]; border-radius:6px; padding:8px 20px; display:inline-block; margin-bottom:32px; font-size:30px; font-weight:600; }
+.title { font-size:88px; font-weight:900; color:#fff; line-height:1.3; margin-bottom:32px; }
+.title .accent { color:[brand_color_primary]; }
+.bullets { list-style:none; display:flex; flex-direction:column; gap:24px; }
+.bullets li { font-size:40px; color:rgba(255,255,255,0.88); padding-left:52px; position:relative; line-height:1.5; }
+.bullets li::before { content:"→"; color:[brand_color_primary]; position:absolute; left:0; font-weight:700; }
+.handle { position:absolute; bottom:72px; right:90px; font-size:30px; font-weight:600; color:rgba(255,255,255,0.3); }
 ```
 
 Fill slides from script, save as `output/XX-slug/slides-[lang].html`
