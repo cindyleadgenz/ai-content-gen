@@ -88,7 +88,7 @@ Ask the user these questions one by one (wait for answer before next):
     → config: rclone_remote
 
 12. HTML card template path
-    (Leave blank to use the default cindy-skills template, or provide your own path)
+    (Leave blank to use the built-in templates in this repo, or provide your own path)
     → config: card_template_path (optional)
 
 13. Notification preference for new ideas
@@ -232,8 +232,10 @@ Using config `drive_parent_folder_id`:
 ## 🎨 Phase 4: Visual Card Generation (HTML + Playwright)
 
 **Determine card template:**
-- If config `card_template_path` is set → use that template
-- Otherwise → use the default template from cindy-skills: `skills/cards/assets/`
+- If config `card_template_path` is set → use that path
+- Otherwise → use the built-in templates from this repo: `templates/blue-dark/` or `templates/orange-light/`
+  - Ask user: "Which theme do you prefer? (A) blue-dark  (B) orange-light"
+  - Path = `[skill install dir]/templates/[chosen-theme]/`
 
 **For each language version:**
 
