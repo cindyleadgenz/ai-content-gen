@@ -81,10 +81,10 @@ Ask the user these questions one by one (wait for answer before next):
     (Must be available on Google Fonts. Leave blank for default: Inter)
     → config: font_primary
 
-12. Card theme — if using built-in templates:
-    (A) blue-dark  (B) orange-light  (C) I'll provide my own template path
-    → config: card_theme ("blue-dark" / "orange-light" / "custom")
-    If C → provide path → config: card_template_path
+12. Do you have your own HTML card template?
+    (A) No — use the built-in template (Claude will apply your brand colors automatically)
+    (B) Yes — provide the path
+    → config: card_template_path (blank if A, path if B)
 
 13. Google Sheets Content Calendar
     - Spreadsheet ID (from the URL: docs.google.com/spreadsheets/d/[THIS_PART]/edit)
@@ -130,7 +130,6 @@ Ask the user these questions one by one (wait for answer before next):
   "brand_color_primary": "#4AB897",
   "brand_color_secondary": "#6DE3EA",
   "font_primary": "Inter",
-  "card_theme": "blue-dark",
   "card_template_path": "",
   "calendar": {
     "spreadsheet_id": "...",
@@ -254,9 +253,12 @@ Using config `drive_parent_folder_id`:
 
 **Determine card template:**
 - If config `card_template_path` is set → use that path
-- If config `card_theme` is set → use `templates/[card_theme]/` from this repo
-- After loading the template, replace CSS color values with config `brand_color_primary` and `brand_color_secondary`, and replace the font with config `font_primary`
-- Replace `@yourbrand` placeholder with config `handle`
+- Otherwise → use the built-in template from this repo: `templates/base/`
+- In either case, before building slides:
+  - Replace `{{PRIMARY_COLOR}}` with config `brand_color_primary`
+  - Replace `{{SECONDARY_COLOR}}` with config `brand_color_secondary`
+  - Replace `{{FONT}}` with config `font_primary`
+  - Replace `{{HANDLE}}` with config `handle`
 
 **For each language version:**
 

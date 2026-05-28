@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1080">
+<title>CTA Slide</title>
+<link href="https://fonts.googleapis.com/css2?family={{FONT}}:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  .card {
+    width: 1080px;
+    height: 1350px;
+    background:
+      radial-gradient(circle 1200px at -10% 105%, {{PRIMARY_COLOR}} 0%, color-mix(in srgb, {{PRIMARY_COLOR}} 30%, transparent) 35%, transparent 65%),
+      #01101A;
+    position: relative;
+    overflow: hidden;
+    font-family: '{{FONT}}', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 90px;
+  }
+  .cta-label {
+    font-size: 36px;
+    font-weight: 600;
+    color: {{SECONDARY_COLOR}};
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 40px;
+  }
+  .cta-title {
+    font-size: 88px;
+    font-weight: 900;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 48px;
+  }
+  .cta-title .accent { color: {{PRIMARY_COLOR}}; }
+  .cta-sub {
+    font-size: 40px;
+    color: rgba(255,255,255,0.7);
+    line-height: 1.5;
+    margin-bottom: 60px;
+  }
+  .handle {
+    position: absolute;
+    bottom: 72px;
+    font-size: 33px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.3);
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="cta-label">Want this?</p>
+  <h2 class="cta-title">Comment <span class="accent">"KEYWORD"</span><br>below 👇</h2>
+  <p class="cta-sub">And I'll send it to you directly.</p>
+  <span class="handle">{{HANDLE}}</span>
+</div>
+</body>
+</html>

@@ -1,38 +1,33 @@
 # Card Templates
 
-Two ready-to-use HTML card themes for your social media visuals.
+One base template with color/font variables — Claude fills in your brand details automatically.
 
-| Theme | Style | Best for |
-|---|---|---|
-| `blue-dark/` | Dark background, teal/green accents | Tech, business, professional |
-| `orange-light/` | Light background, warm orange accents | Lifestyle, personal brand, warm tone |
+## How it works
 
-## Slide types (per theme)
+During `/ai-content-gen-v1` setup, you provide:
+- Primary color (hex)
+- Secondary color (hex)  
+- Font name (Google Fonts)
+- Handle
+
+Claude loads the template and replaces the placeholders before building your slides:
+
+| Placeholder | Replaced with |
+|---|---|
+| `{{PRIMARY_COLOR}}` | Your brand primary color |
+| `{{SECONDARY_COLOR}}` | Your brand secondary color |
+| `{{FONT}}` | Your chosen font |
+| `{{HANDLE}}` | Your social media handle |
+
+## Slide types
 
 | File | Use for |
 |---|---|
-| `cover.html` | First slide — title + hook |
-| `content-text.html` | Text-only content slides |
-| `content-image.html` | Content slides with image/graphic |
-| `cta.html` | Last slide — call to action |
-
-## Customize
-
-Before using, replace these placeholders in each HTML file:
-
-| Placeholder | Replace with |
-|---|---|
-| `@yourbrand` | Your social media handle |
-| Title/subtitle text | Your actual content |
-
-Or just let Claude fill them in during `/ai-content-gen` — it handles this automatically.
+| `base/cover.html` | First slide — title + hook |
+| `base/content-text.html` | Text content slides with bullet points |
+| `base/cta.html` | Last slide — call to action |
 
 ## Bring your own template
 
-Set your own template path in config:
-
-```json
-{
-  "card_template_path": "/path/to/your/templates/"
-}
-```
+Set `card_template_path` in your config to use a custom template.
+Just use the same `{{PLACEHOLDER}}` syntax and Claude will apply your brand config.

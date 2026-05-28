@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=1080">
-<title>Cover — Blue Dark</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@yourbrand;600;700;800&family=Noto+Sans+TC:wght@yourbrand;500;700;900&display=swap" rel="stylesheet">
+<title>Cover</title>
+<link href="https://fonts.googleapis.com/css2?family={{FONT}}:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   .card {
     width: 1080px;
     height: 1350px;
     background:
-      radial-gradient(ellipse 900px 900px at 100% 0%, #0A2A35 0%, transparent 70%),
-      radial-gradient(circle 1200px at -10% 105%, #4AB897 0%, rgba(74,184,151,0.5) 25%, rgba(74,184,151,0.15) 50%, transparent 75%),
+      radial-gradient(ellipse 900px 900px at 100% 0%, color-mix(in srgb, {{PRIMARY_COLOR}} 40%, #000) 0%, transparent 70%),
+      radial-gradient(circle 1200px at -10% 105%, {{PRIMARY_COLOR}} 0%, color-mix(in srgb, {{PRIMARY_COLOR}} 50%, transparent) 25%, transparent 75%),
       #01101A;
     position: relative;
     overflow: hidden;
-    font-family: 'Inter', 'Noto Sans TC', sans-serif;
+    font-family: '{{FONT}}', sans-serif;
   }
   .content {
     position: absolute;
@@ -34,14 +34,13 @@
   .subtitle {
     font-weight: 500;
     font-size: 44px;
-    color: #6DE3EA;
+    color: {{SECONDARY_COLOR}};
     line-height: 1.5;
   }
   .handle {
     position: absolute;
     bottom: 72px;
     left: 90px;
-    font-family: 'Inter', sans-serif;
     font-size: 33px;
     font-weight: 600;
     color: rgba(255,255,255,0.3);
@@ -51,10 +50,10 @@
 <body>
 <div class="card">
   <div class="content">
-    <h1 class="title">標題標題<br>標題標題標題標題</h1>
-    <p class="subtitle">副標題副標題副標題</p>
+    <h1 class="title">Your Main Title<br>Goes Here</h1>
+    <p class="subtitle">Your subtitle or hook line</p>
   </div>
-  <span class="handle">@yourbrand</span>
+  <span class="handle">{{HANDLE}}</span>
 </div>
 </body>
 </html>
