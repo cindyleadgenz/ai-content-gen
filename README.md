@@ -1,101 +1,118 @@
 # ai-content-gen
 
-A universal AI social media content pipeline skill for **Claude Code**.
+A universal AI social media content pipeline for **Claude Code**.
 
-Works for **any brand, any niche, any language** — not tied to any specific account or business.
+Works for **any brand, any niche, any language** — fully configurable on first run.
 
 ---
 
-## What it does
+## 3 Versions — Pick What Fits Your Style
 
-Automates your full content creation workflow:
+| | V1 — HTML Cards | V2 — HTML Photo Cards | V3 — AI Image |
+|---|---|---|---|
+| **Visual style** | Clean gradient backgrounds | Your photo + dark overlay | ChatGPT-generated images |
+| **Needs photos?** | No | Yes (your own photos) | Yes (uploaded to ChatGPT) |
+| **Needs ChatGPT?** | No | No | Yes |
+| **Non-English text?** | ✅ Reliable | ✅ Reliable | ⚠️ May garble |
+| **Best for** | Any brand, clean look | Personal brands, coaches | AI-image aesthetic |
+| **Install trigger** | `/ai-content-gen-v1` | `/ai-content-gen-v2` | `/ai-content-gen-v3` |
 
-**Idea → Script → Visual Cards (HTML) → Google Drive → Content Calendar**
-
-Supports:
-- Carousel & infographic formats
-- Single language or bilingual output
-- Any brand voice / tone
-- IG, FB, LinkedIn, XHS, TikTok, and more
+> Can't decide? Start with **V1** — simplest setup, most reliable.
 
 ---
 
 ## Install
 
-Copy `SKILL.md` into your Claude Code skills folder:
+Pick the version(s) you want:
 
 ```bash
-mkdir -p ~/.claude/skills/ai-content-gen
-curl -o ~/.claude/skills/ai-content-gen/SKILL.md \
-  https://raw.githubusercontent.com/cindyleadgenz/ai-content-gen/main/SKILL.md
+# V1 — HTML Cards (recommended starting point)
+mkdir -p ~/.claude/skills/ai-content-gen-v1
+curl -o ~/.claude/skills/ai-content-gen-v1/SKILL.md \
+  https://raw.githubusercontent.com/cindyleadgenz/ai-content-gen/main/v1-html-cards/SKILL.md
+
+# V2 — HTML Photo Cards
+mkdir -p ~/.claude/skills/ai-content-gen-v2
+curl -o ~/.claude/skills/ai-content-gen-v2/SKILL.md \
+  https://raw.githubusercontent.com/cindyleadgenz/ai-content-gen/main/v2-html-photo/SKILL.md
+
+# V3 — AI Image (ChatGPT)
+mkdir -p ~/.claude/skills/ai-content-gen-v3
+curl -o ~/.claude/skills/ai-content-gen-v3/SKILL.md \
+  https://raw.githubusercontent.com/cindyleadgenz/ai-content-gen/main/v3-ai-image/SKILL.md
 ```
+
+You can install all 3 — they're independent and won't conflict.
 
 ---
 
 ## First Run
 
-Open Claude Code and type:
+Open Claude Code and type the version trigger:
 
 ```
-/ai-content-gen
+/ai-content-gen-v1
 ```
 
-Claude will walk you through a one-time setup (takes ~3 minutes):
-- Your brand name, bio, tone of voice
-- Target audience & content pillars
-- Language preferences (single or bilingual)
-- Platforms (IG, FB, LinkedIn, XHS...)
-- Google Sheets Content Calendar details
-- Google Drive parent folder
-- Local output directory & rclone setup
-
-Config is saved to `~/.claude/skills/ai-content-gen/config.json` — you only set up once.
+Claude runs a one-time setup (~3 min) and saves your config. Every run after that is fully automated.
 
 ---
 
-## What you need
+## What the Pipeline Does
+
+```
+Calendar scan → Idea approval
+      ↓
+Research + Script (adapted to your brand voice)
+      ↓
+Post captions (per platform)
+      ↓
+Drive folder + Docs
+      ↓
+Visual cards (V1/V2: HTML  |  V3: ChatGPT)
+      ↓
+Upload to Google Drive (rclone)
+      ↓
+Calendar updated ✅
+```
+
+---
+
+## What You Need
 
 | Tool | Purpose |
 |---|---|
 | [Claude Code](https://claude.ai/code) | Runs the skill |
 | Google Sheets MCP | Read/write Content Calendar |
-| Google Drive MCP | Create folders & docs |
+| Google Drive MCP | Create folders & Docs |
 | [rclone](https://rclone.org/) | Upload images to Google Drive |
-| [Playwright MCP](https://github.com/microsoft/playwright-mcp) | Screenshot HTML cards |
-| Python + Pillow | Crop & resize images |
+| [Playwright MCP](https://github.com/microsoft/playwright-mcp) | Screenshot HTML cards (V1/V2) or control ChatGPT (V3) |
+| Python + Pillow | Resize images to 1080×1350 |
 
 ---
 
-## After Setup
+## Card Templates (V1)
 
-Every time you run `/ai-content-gen`:
+Two built-in themes in `templates/`:
 
-1. Scans your Content Calendar for approved ideas
-2. Researches reference content (Firecrawl)
-3. Writes slide scripts in your brand voice
-4. Generates post captions for each platform
-5. Creates Drive folder structure & Docs
-6. Builds HTML visual cards
-7. Screenshots + resizes to 1080×1350
-8. Uploads to Google Drive via rclone
-9. Updates Calendar row to "Done"
+| Theme | Style |
+|---|---|
+| `blue-dark/` | Dark, teal accents — professional/tech |
+| `orange-light/` | Light, warm accents — lifestyle/personal |
+
+Or bring your own template and set `card_template_path` in config.
 
 ---
 
 ## Reset Config
 
-Delete the config file and run again:
-
 ```bash
-rm ~/.claude/skills/ai-content-gen/config.json
+rm ~/.claude/skills/ai-content-gen-v1/config.json  # reset V1
+rm ~/.claude/skills/ai-content-gen-v2/config.json  # reset V2
+rm ~/.claude/skills/ai-content-gen-v3/config.json  # reset V3
 ```
 
 ---
 
-## Based on
-
-Extracted from [Cindy's](https://github.com/cindyleadgenz/cindy-skills) personal V4A/V4B content automation workflows — generalized so anyone can use it.
-
----
-
 *Made by [@cindyleadgenz](https://github.com/cindyleadgenz)*
+*Based on real production workflows powering LeadGenz & Cindy IP content automation.*
